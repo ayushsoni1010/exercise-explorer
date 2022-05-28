@@ -1,0 +1,18 @@
+FROM node:14.9
+
+#set working directory
+WORKDIR /app
+
+#install app dependencies
+COPY package.json .
+
+RUN npm install
+
+#add app
+COPY . .
+
+#expose app on port
+EXPOSE 3000
+
+#start app
+CMD ["npm", "start"]
