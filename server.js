@@ -12,12 +12,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-mongoose.connect(
-  "mongodb+srv://ayushsoni1010:asdfghjkl1010@cluster0.lovmb.mongodb.net/?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-  }
-);
+mongoose.connect(process.env.ATLAS_URI, {
+  useNewUrlParser: true,
+});
 
 const connection = mongoose.connection;
 
