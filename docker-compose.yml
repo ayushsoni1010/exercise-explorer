@@ -9,3 +9,13 @@ services:
       - "./frontend:/app"
 
     command: npm start
+
+  backend:
+    build: ./backend
+    container_name: backend_node
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./backend:/app"
+
+    command: npm run server
