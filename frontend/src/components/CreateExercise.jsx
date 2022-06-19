@@ -1,7 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import common from "../helpers/common";
 
 export default class CreateExercise extends Component {
   constructor(props) {
@@ -24,18 +25,20 @@ export default class CreateExercise extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/users/")
-      .then(response => {
+      .get(common.axiosURL + "/users/")
+      .then((response) => {
         if (response.data.length > 0) {
           this.setState({
-            users: response.data.map(user => user.username),
+            users: response.data.map((user) => user.username),
             username: response.data[0].username,
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
+
+    console.log(common);
   }
 
   onChangeUsername(e) {
@@ -55,7 +58,7 @@ export default class CreateExercise extends Component {
       duration: e.target.value,
     });
   }
-  
+
   onChangeDate(date) {
     this.setState({
       date: date,
@@ -75,9 +78,9 @@ export default class CreateExercise extends Component {
     console.log(exercise, 10000);
 
     axios
-      .post("http://localhost:5000/exercises/add", exercise)
-      .then(res => console.log(res.data))
-      .catch(err => {
+      .post(common.axiosURL + "/exercises/add", exercise)
+      .then((res) => console.log(res.data))
+      .catch((err) => {
         console.log(err);
       });
 
@@ -86,19 +89,18 @@ export default class CreateExercise extends Component {
 
   render() {
     return (
-      <div>
-          <h1>Create New Exercise Log </h1>
-          <form onSubmit={this.onSubmit}>
-            <div className="form-group">
+      <div className="mt-5">
+        <h3>Create New Exercise Log </h3>
+        <form onSubmit={this.onSubmit}>
+          <div className="form-group mt-1">
             <label>Username: </label>
             <select
-              ref="userInput"
               required
               className="form-control"
               value={this.state.username}
               onChange={this.onChangeUsername}
             >
-              {this.state.users.map(function(user) {
+              {this.state.users.map(function (user) {
                 return (
                   <option key={user} value={user}>
                     {user}
@@ -107,7 +109,7 @@ export default class CreateExercise extends Component {
               })}
             </select>
           </div>
-          <div className="form-group">
+          <div className="form-group mt-1">
             <label>Description: </label>
             <input
               type="text"
@@ -117,7 +119,7 @@ export default class CreateExercise extends Component {
               onChange={this.onChangeDescription}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group mt-1">
             <label>Duration (in minutes): </label>
             <input
               type="text"
@@ -126,9 +128,9 @@ export default class CreateExercise extends Component {
               onChange={this.onChangeDuration}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group mt-1">
             <label>Date: </label>
-            <div>
+            <div className="mt-1">
               <DatePicker
                 selected={this.state.date}
                 onChange={this.onChangeDate}
@@ -136,7 +138,7 @@ export default class CreateExercise extends Component {
             </div>
           </div>
 
-          <div className="form-group">
+          <div className="form-group mt-2">
             <input
               type="submit"
               value="Create Exercise Log"

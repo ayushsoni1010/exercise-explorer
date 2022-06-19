@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import common from "../helpers/common";
 
 export default class EditExercise extends Component {
   constructor(props) {
@@ -24,8 +25,8 @@ export default class EditExercise extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/exercises/" + this.props.match.params.id)
-      .then(response => {
+      .get(common.axiosURL + "/exercises/" + this.props.match.params.id)
+      .then((response) => {
         this.setState({
           username: response.data.username,
           description: response.data.description,
@@ -33,20 +34,20 @@ export default class EditExercise extends Component {
           date: new Date(response.data.date),
         });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
 
     axios
-      .get("http://localhost:5000/users/")
-      .then(response => {
+      .get(common.axiosURL + "/users/")
+      .then((response) => {
         if (response.data.length > 0) {
           this.setState({
-            users: response.data.map(user => user.username),
+            users: response.data.map((user) => user.username),
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
@@ -89,10 +90,10 @@ export default class EditExercise extends Component {
 
     axios
       .post(
-        "http://localhost:5000/exercises/update/" + this.props.match.params.id,
+        common.axiosURL + "/exercises/update/" + this.props.match.params.id,
         exercise
       )
-      .then(res => console.log(res.data));
+      .then((res) => console.log(res.data));
 
     window.location = "/";
   }
@@ -111,7 +112,7 @@ export default class EditExercise extends Component {
               value={this.state.username}
               onChange={this.onChangeUsername}
             >
-              {this.state.users.map(function(user) {
+              {this.state.users.map(function (user) {
                 return (
                   <option key={user} value={user}>
                     {user}

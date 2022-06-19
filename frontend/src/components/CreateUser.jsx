@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import common from "../helpers/common";
 
 export default class CreateUser extends React.Component {
   constructor(props) {
@@ -29,8 +30,8 @@ export default class CreateUser extends React.Component {
     console.log(user, 20000);
 
     axios
-      .post("http://localhost:5000/users/add", user)
-      .then(res => console.log(res.data));
+      .post(common.axiosURL + "/users/add", user)
+      .then((res) => console.log(res.data));
 
     this.setState({
       username: "",
@@ -40,8 +41,8 @@ export default class CreateUser extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div>
-          <h1>Create New User</h1>
+        <div className="mt-5">
+          <h3>Create New User</h3>
           <form onSubmit={this.onSubmit}>
             <div className="form-group">
               <label>Username: </label>
@@ -52,7 +53,7 @@ export default class CreateUser extends React.Component {
                 onChange={this.onChangeUsername}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group mt-2">
               <input
                 type="submit"
                 value="Create User"
